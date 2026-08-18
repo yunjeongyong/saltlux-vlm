@@ -1,0 +1,316 @@
+<title>추론 결과 리포트 — 영수증·문서 VLM</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ground:#f1f4f2; --surface:#fbfcfb; --surface-2:#f6f8f6;
+    --ink:#14171a; --ink-2:#535a5e; --muted:#7d8487;
+    --hairline:#e0e4e1; --rule:#c8cdc9;
+    --base:#2a78d6; --lora:#eb6834; --gt:#1baf7a;
+    --inert:#cbd0cc; --good:#0ca30c; --critical:#d03b3b; --warning:#fab219;
+    --shadow:0 1px 2px rgba(20,23,26,.05), 0 8px 24px -18px rgba(20,23,26,.35);
+    --sans: system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+    --mono: ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,"D2Coding",monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground:#0d0f0e; --surface:#191b1a; --surface-2:#202322;
+    --ink:#ffffff; --ink-2:#c1c6c2; --muted:#8b918d;
+    --hairline:#2b2f2c; --rule:#3b403c;
+    --base:#3987e5; --lora:#d95926; --gt:#199e70;
+    --inert:#3a3f3b;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -22px rgba(0,0,0,.9);
+  } }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground:#0d0f0e; --surface:#191b1a; --surface-2:#202322;
+    --ink:#ffffff; --ink-2:#c1c6c2; --muted:#8b918d;
+    --hairline:#2b2f2c; --rule:#3b403c;
+    --base:#3987e5; --lora:#d95926; --gt:#199e70;
+    --inert:#3a3f3b;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -22px rgba(0,0,0,.9);
+  }
+  body { background:var(--ground); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.65; margin:0; padding:0 20px 96px;
+         -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1080px; margin:0 auto; }
+  h1,h2,h3 { margin:0; font-weight:620; letter-spacing:-.015em; text-wrap:balance; }
+  p { margin:0; }
+  .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+             text-transform:uppercase; color:var(--muted); }
+  .num { font-family:var(--mono); font-variant-numeric:tabular-nums; }
+
+  header { padding:64px 0 34px; display:flex; flex-direction:column; gap:15px;
+           border-bottom:1px solid var(--rule); }
+  header h1 { font-size:clamp(28px,4.4vw,42px); line-height:1.14; }
+  header .lede { color:var(--ink-2); max-width:64ch; font-size:16.5px; }
+
+  .tiles { display:grid; gap:1px; grid-template-columns:repeat(4,1fr);
+           background:var(--hairline); border:1px solid var(--hairline);
+           border-radius:10px; overflow:hidden; margin-top:10px; }
+  @media (max-width:760px){ .tiles{grid-template-columns:repeat(2,1fr);} }
+  .tile { background:var(--surface); padding:15px 17px 17px; display:flex;
+          flex-direction:column; gap:2px; }
+  .tile .v { font-family:var(--mono); font-variant-numeric:tabular-nums;
+             font-size:25px; line-height:1.15; letter-spacing:-.02em; }
+  .tile .k { font-size:12.5px; color:var(--muted); }
+  .tile .n { font-size:11.5px; color:var(--ink-2); font-family:var(--mono); }
+
+  section { padding-top:50px; }
+  .sec-head { display:flex; flex-direction:column; gap:6px; margin-bottom:20px; }
+  .sec-head h2 { font-size:21px; }
+  .sec-head p { color:var(--ink-2); max-width:68ch; font-size:14.5px; }
+
+  .card { background:var(--surface); border:1px solid var(--hairline);
+          border-radius:11px; box-shadow:var(--shadow); }
+  .pad { padding:20px 22px; }
+
+  /* 진행바 */
+  .prog { display:flex; flex-direction:column; gap:8px; }
+  .prog .track { height:10px; border-radius:5px; background:var(--inert); overflow:hidden; }
+  .prog .fill { height:100%; background:var(--base); border-radius:5px; }
+  .prog .meta { display:flex; justify-content:space-between; gap:12px;
+                font-family:var(--mono); font-size:12.5px; color:var(--ink-2);
+                font-variant-numeric:tabular-nums; flex-wrap:wrap; }
+
+  /* 라운드 비교 */
+  .rounds { display:grid; gap:1px; background:var(--hairline);
+            border:1px solid var(--hairline); border-radius:11px; overflow:hidden; }
+  .round { background:var(--surface); padding:16px 20px; display:grid;
+           grid-template-columns:190px 1fr; gap:6px 20px; align-items:center; }
+  @media (max-width:760px){ .round{grid-template-columns:1fr;} }
+  .round.hi { background:var(--surface-2); }
+  .round .lab { font-weight:620; font-size:14px; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .round .lab .n { font-family:var(--mono); font-size:11.5px; color:var(--muted); font-weight:400; }
+  .deltas { display:flex; flex-direction:column; gap:7px; }
+  .delta { display:grid; grid-template-columns:130px 1fr auto; gap:12px; align-items:center; }
+  @media (max-width:600px){ .delta{grid-template-columns:1fr; gap:3px;} }
+  .delta .t { font-size:12.5px; color:var(--ink-2); }
+  .dbar { position:relative; height:20px; display:flex; align-items:center; gap:2px; }
+  .dbar .seg { height:9px; border-radius:2px; }
+  .delta .v { font-family:var(--mono); font-variant-numeric:tabular-nums;
+              font-size:12.5px; white-space:nowrap; }
+  .up { color:var(--critical); } .down { color:var(--good); }
+
+  /* 문서 카드 */
+  .doc { margin-bottom:16px; overflow:hidden; }
+  .doc .top { display:flex; justify-content:space-between; align-items:baseline;
+              gap:14px; padding:14px 20px; border-bottom:1px solid var(--hairline);
+              flex-wrap:wrap; }
+  .doc .top .id { font-family:var(--mono); font-size:13px; font-weight:600; }
+  .doc .top .tk { font-size:12px; color:var(--muted); }
+  .doc .top .cers { display:flex; gap:14px; font-family:var(--mono);
+                    font-variant-numeric:tabular-nums; font-size:12.5px; }
+  .doc .body { display:grid; grid-template-columns:minmax(0,320px) 1fr; gap:0; }
+  @media (max-width:900px){ .doc .body{grid-template-columns:1fr;} }
+  .doc .shot { padding:16px 18px; border-right:1px solid var(--hairline); background:var(--surface-2); }
+  @media (max-width:900px){ .doc .shot{border-right:none; border-bottom:1px solid var(--hairline);} }
+  .doc .shot img { width:100%; height:auto; border-radius:6px; display:block;
+                   border:1px solid var(--hairline); }
+  .doc .shot .noimg { font-size:12.5px; color:var(--muted); font-family:var(--mono); }
+  .panes { display:flex; flex-direction:column; }
+  .pane { border-bottom:1px solid var(--hairline); }
+  .pane:last-child { border-bottom:none; }
+  .pane summary { cursor:pointer; padding:9px 18px; display:flex; align-items:center;
+                  gap:9px; font-size:12.5px; user-select:none; list-style:none; }
+  .pane summary::-webkit-details-marker { display:none; }
+  .pane summary::before { content:"▸"; color:var(--muted); font-size:10px; transition:transform .12s; }
+  .pane[open] summary::before { transform:rotate(90deg); }
+  .pane summary:focus-visible { outline:2px solid var(--ink); outline-offset:-2px; }
+  .pane .tag { font-family:var(--mono); font-size:10.5px; letter-spacing:.07em;
+               padding:1px 7px; border-radius:4px; border:1px solid currentColor; }
+  .tag.gt{color:var(--gt);} .tag.base{color:var(--base);} .tag.lora{color:var(--lora);}
+  .pane pre { margin:0; padding:0 18px 16px; font-family:var(--mono); font-size:12px;
+              line-height:1.6; white-space:pre-wrap; word-break:break-word;
+              color:var(--ink-2); max-height:340px; overflow:auto; }
+
+  .note { color:var(--ink-2); font-size:13.5px; margin-top:14px; max-width:72ch; }
+  .note strong { color:var(--ink); font-weight:620; }
+  .warnbox { border-left:3px solid var(--warning); background:var(--surface);
+             border-radius:0 9px 9px 0; padding:14px 18px; margin-top:16px;
+             font-size:13.5px; color:var(--ink-2); }
+  .warnbox strong { color:var(--ink); }
+
+  svg text { font-family:var(--mono); font-size:10px; fill:var(--muted); }
+  footer { margin-top:56px; padding-top:20px; border-top:1px solid var(--rule);
+           color:var(--muted); font-size:12.5px; display:flex; flex-wrap:wrap; gap:6px 20px; }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+var D = /*__DATA__*/null;
+
+function el(t, cls, txt) { var e = document.createElement(t); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+function fmt(n) { return n.toLocaleString("en-US"); }
+function pct(x) { return (100 * x).toFixed(1); }
+
+var app = document.getElementById("app");
+
+/* ── 헤더 ─────────────────────────────── */
+var live = D.live, cv = D.curve, S = D.summary;
+var head = el("header");
+head.innerHTML =
+  '<div class="eyebrow">추론 결과 리포트 · ' + D.run + ' (Qwen3.5-4B LoRA)</div>' +
+  '<h1>' + D.headline + '</h1>' +
+  '<p class="lede">' + (D.subhead || ('홀드아웃 ' + D.docs.length + '건에 베이스 모델과 LoRA 모델을 각각 돌려 정답과 나란히 놓았습니다. ' +
+  '학습셋과 겹치지 않는 표본만 썼습니다.')) + '</p>';
+var tiles = el("div", "tiles");
+function tile(v, k, n) {
+  var t = el("div", "tile");
+  t.appendChild(el("div", "v", v)); t.appendChild(el("div", "k", k)); t.appendChild(el("div", "n", n));
+  return t;
+}
+var rk = S.receipt_markdown, pk = S.page_ocr;
+if (rk) tiles.appendChild(tile(rk.base.toFixed(3) + " → " + rk.lora.toFixed(3), "영수증 CER", rk.win + "/" + rk.n + "건 개선"));
+if (pk) tiles.appendChild(tile(pk.base.toFixed(3) + " → " + pk.lora.toFixed(3), "공공문서 CER", pk.win + "/" + pk.n + "건 개선"));
+if (live) tiles.appendChild(tile(pct(live.step / live.total) + "%", "주 학습 진행 (35B)", fmt(live.step) + " / " + fmt(live.total) + " step"));
+if (cv && cv.eval.length) tiles.appendChild(tile(cv.eval[cv.eval.length - 1].loss.toFixed(3), "주 학습 eval loss", "step " + fmt(cv.eval[cv.eval.length - 1].step)));
+head.appendChild(tiles);
+app.appendChild(head);
+
+/* ── 주 학습 상태 ─────────────────────── */
+if (cv) {
+  var s1 = el("section");
+  s1.innerHTML = '<div class="sec-head"><div class="eyebrow">아직 도는 중</div>' +
+    '<h2>receipt-v3-qwen36 — Qwen3.6-35B-A3B LoRA</h2>' +
+    '<p>이번 리포트의 진단 대상은 아래 upload-v2 쪽입니다. 이 학습은 별개로 계속 돌고 있고 eval loss는 아직 내려가는 중입니다.</p></div>';
+  var c1 = el("div", "card pad");
+  var pr = el("div", "prog");
+  var frac = live ? live.step / live.total : cv.step / cv.max_steps;
+  pr.innerHTML = '<div class="track"><div class="fill" style="width:' + (100 * frac).toFixed(1) + '%"></div></div>';
+  var meta = el("div", "meta");
+  meta.innerHTML = '<span>' + fmt(live ? live.step : cv.step) + ' / ' + fmt(live ? live.total : cv.max_steps) +
+    ' step · epoch ' + cv.epoch + '</span>' +
+    (live ? '<span>경과 ' + live.elapsed + ' · 남은 ' + live.eta + ' · ' + live.sec_it + ' s/it</span>' : '') +
+    '<span>최신 ' + cv.ckpt + '</span>';
+  pr.appendChild(meta);
+  c1.appendChild(pr);
+  c1.appendChild(lossChart(cv));
+  s1.appendChild(c1);
+  app.appendChild(s1);
+}
+
+function lossChart(cv) {
+  var W = 900, H = 220, L = 44, R = 14, T = 14, B = 26;
+  var all = cv.train.map(function (p) { return p.loss; }).concat(cv.eval.map(function (p) { return p.loss; }));
+  var ymax = Math.max.apply(null, all) * 1.05, ymin = Math.min.apply(null, all) * 0.9;
+  var xmax = cv.max_steps;
+  function X(s) { return L + (W - L - R) * s / xmax; }
+  function Y(v) { return T + (H - T - B) * (1 - (v - ymin) / (ymax - ymin)); }
+  var box = el("div");
+  box.style.cssText = "overflow-x:auto;margin-top:18px";
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;min-width:520px;height:auto" role="img" aria-label="학습 loss 곡선">';
+  for (var i = 0; i <= 4; i++) {
+    var v = ymin + (ymax - ymin) * i / 4, y = Y(v);
+    svg += '<line x1="' + L + '" y1="' + y + '" x2="' + (W - R) + '" y2="' + y + '" stroke="var(--hairline)" stroke-width="1"/>' +
+           '<text x="' + (L - 8) + '" y="' + (y + 3) + '" text-anchor="end">' + v.toFixed(2) + '</text>';
+  }
+  for (var s = 0; s <= xmax; s += 5000) {
+    svg += '<text x="' + X(s) + '" y="' + (H - 8) + '" text-anchor="middle">' + (s / 1000) + 'k</text>';
+  }
+  svg += '<polyline fill="none" stroke="var(--base)" stroke-width="2" stroke-linejoin="round" points="' +
+    cv.train.map(function (p) { return X(p.step) + "," + Y(p.loss); }).join(" ") + '"/>';
+  svg += '<polyline fill="none" stroke="var(--lora)" stroke-width="2" points="' +
+    cv.eval.map(function (p) { return X(p.step) + "," + Y(p.loss); }).join(" ") + '"/>';
+  cv.eval.forEach(function (p) {
+    svg += '<circle cx="' + X(p.step) + '" cy="' + Y(p.loss) + '" r="4" fill="var(--lora)" stroke="var(--surface)" stroke-width="2"><title>step ' + p.step + ' · eval ' + p.loss + '</title></circle>';
+  });
+  var last = cv.eval[cv.eval.length - 1];
+  if (last) svg += '<text x="' + (X(last.step) + 9) + '" y="' + (Y(last.loss) + 3) + '" fill="var(--ink)">eval ' + last.loss + '</text>';
+  svg += '</svg>';
+  box.innerHTML = svg;
+  var keys = el("div", "meta");
+  keys.style.cssText = "font-family:var(--mono);font-size:12px;color:var(--ink-2);display:flex;gap:18px;padding-top:8px";
+  keys.innerHTML = '<span><span style="display:inline-block;width:11px;height:3px;background:var(--base);vertical-align:middle"></span> train (100스텝 평균)</span>' +
+                   '<span><span style="display:inline-block;width:11px;height:3px;background:var(--lora);vertical-align:middle"></span> eval</span>';
+  var w = el("div"); w.appendChild(box); w.appendChild(keys);
+  return w;
+}
+
+/* ── 라운드 비교 ──────────────────────── */
+var s2 = el("section");
+s2.innerHTML = '<div class="sec-head"><div class="eyebrow">라운드 비교</div>' +
+  '<h2>학습 조건별 base → LoRA 변화</h2>' +
+  '<p>각 막대는 같은 이미지에 대한 <strong>base → LoRA</strong> 변화입니다. 라운드마다 표본이 달라 라운드 간 절대값은 비교하지 마시고, ' +
+  '각 라운드 안에서의 방향만 보세요.</p></div>';
+var rwrap = el("div", "rounds");
+D.rounds.forEach(function (r) {
+  var row = el("div", "round" + (r.hi ? " hi" : ""));
+  var lab = el("div", "lab");
+  lab.appendChild(el("span", null, r.label));
+  lab.appendChild(el("span", "n", r.n + "건"));
+  row.appendChild(lab);
+  var ds = el("div", "deltas");
+  ["receipt_markdown", "page_ocr"].forEach(function (t) {
+    var m = r.sum[t]; if (!m) return;
+    var d = el("div", "delta");
+    d.appendChild(el("div", "t", D.task_ko[t]));
+    var bar = el("div", "dbar");
+    var scale = 320;
+    var b = el("div", "seg"); b.style.cssText = "width:" + (m.base * scale) + "px;background:var(--base)";
+    b.title = "base CER " + m.base.toFixed(3);
+    var l = el("div", "seg"); l.style.cssText = "width:" + (m.lora * scale) + "px;background:var(--lora)";
+    l.title = "LoRA CER " + m.lora.toFixed(3);
+    var col = el("div"); col.style.cssText = "display:flex;flex-direction:column;gap:3px";
+    col.appendChild(b); col.appendChild(l);
+    bar.appendChild(col);
+    d.appendChild(bar);
+    var worse = m.lora > m.base;
+    var v = el("div", "v");
+    v.innerHTML = m.base.toFixed(3) + " → " + m.lora.toFixed(3) +
+      ' <span class="' + (worse ? "up" : "down") + '">' + (worse ? "▲" : "▼") +
+      Math.abs(m.lora - m.base).toFixed(3) + '</span> <span style="color:var(--muted)">' + m.win + "/" + m.n + "</span>";
+    d.appendChild(v);
+    ds.appendChild(d);
+  });
+  row.appendChild(ds);
+  rwrap.appendChild(row);
+});
+s2.appendChild(rwrap);
+var lg = el("div", "note");
+lg.innerHTML = '위 막대: <span style="color:var(--base)">■</span> base · 아래 막대: <span style="color:var(--lora)">■</span> LoRA. ' +
+  '오른쪽 숫자는 <span class="num">base → LoRA</span> 와 개선된 건수입니다. CER은 낮을수록 좋습니다.';
+s2.appendChild(lg);
+app.appendChild(s2);
+
+/* ── 문서별 출력 ──────────────────────── */
+var s3 = el("section");
+s3.innerHTML = '<div class="sec-head"><div class="eyebrow">' + D.docs.length + '건 · CER 나쁜 순</div>' +
+  '<h2>실제 출력</h2><p>왼쪽이 입력 이미지, 오른쪽이 정답 · 베이스 · LoRA 출력입니다. 접힌 칸을 눌러 펼치세요.</p></div>';
+D.docs.forEach(function (d, i) {
+  var c = el("div", "card doc");
+  var worse = d.cer_lora > d.cer_base;
+  var top = el("div", "top");
+  top.innerHTML = '<div><span class="id">' + d.id + '</span> <span class="tk">' + D.task_ko[d.task] + '</span></div>' +
+    '<div class="cers"><span style="color:var(--base)">base ' + d.cer_base.toFixed(3) + '</span>' +
+    '<span style="color:var(--lora)">lora ' + d.cer_lora.toFixed(3) + '</span>' +
+    '<span class="' + (worse ? "up" : "down") + '">' + (worse ? "▲" : "▼") + Math.abs(d.cer_lora - d.cer_base).toFixed(3) + '</span></div>';
+  c.appendChild(top);
+  var body = el("div", "body");
+  var shot = el("div", "shot");
+  if (d.img) { var im = new Image(); im.src = d.img; im.alt = d.id + " 입력 이미지"; im.loading = "lazy"; shot.appendChild(im); }
+  else shot.appendChild(el("div", "noimg", "(이미지 없음)"));
+  body.appendChild(shot);
+  var panes = el("div", "panes");
+  [["정답", "gt", d.gt, i === 0], ["베이스", "base", d.base, false], ["LoRA", "lora", d.lora, i === 0]].forEach(function (p) {
+    var det = el("details", "pane");
+    if (p[3]) det.open = true;
+    var sm = el("summary");
+    sm.innerHTML = '<span class="tag ' + p[1] + '">' + p[0] + '</span><span style="color:var(--muted)">' + p[2].length + '자</span>';
+    det.appendChild(sm);
+    det.appendChild(el("pre", null, p[2]));
+    panes.appendChild(det);
+  });
+  body.appendChild(panes);
+  c.appendChild(body);
+  s3.appendChild(c);
+});
+app.appendChild(s3);
+
+var f = el("footer");
+f.innerHTML = '<span>표본 <span class="num">' + D.eval_src + '</span></span>' +
+  '<span>모델 <span class="num">Qwen3.5-4B + ' + D.run + '</span></span>' +
+  '<span>서버 <span class="num">242</span></span>';
+app.appendChild(f);
+</script>

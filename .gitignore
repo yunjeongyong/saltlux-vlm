@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 대용량 데이터셋 (별도 스토리지 관리)
+receipt_data/
+vlm_dataset_upload/
+*.tar.gz
+*.zip
+
+# 자격증명
+*_key
+.docstudio_key
+.gitlab_key
+.env
+
+# 이미지 파일
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.webp
+*.svg
+*.tif
+*.tiff
+
+# 로그·산출물
+*.log
