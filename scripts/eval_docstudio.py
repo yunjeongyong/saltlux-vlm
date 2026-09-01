@@ -135,7 +135,7 @@ def cer(ref, hyp):
     sm = SequenceMatcher(None, ref, hyp, autojunk=False)
     dist = sum(max(i2 - i1, j2 - j1)
                for tag, i1, i2, j1, j2 in sm.get_opcodes() if tag != "equal")
-    return dist / len(ref)
+    return dist / max(len(ref), len(hyp))
 
 
 def compare_table(gt, html):

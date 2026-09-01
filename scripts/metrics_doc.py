@@ -3,7 +3,9 @@
 
 기존 eval 스크립트들은 CER 을 difflib.SequenceMatcher 로 근사했다. 그건 편집거리가
 아니라 최장공통부분열 기반이라 값이 실제 CER 보다 낮게 나온다(특히 순서가 뒤섞일 때).
-보고용 숫자는 표준 정의를 쓴다 — 편집거리 / 정답 길이.
+보고용 숫자는 편집거리를 쓰되, 분모를 max(len(정답), len(예측)) 로 둬 항상 0~1 이 되게 한다.
+정답 길이로만 나누는 고전 정의는 상한이 없어서 반복루프 한 건이 평균을 삼킨다
+(cer_unbounded 로 남겨뒀다 — 참고용이며 실험 간 비교에는 쓰지 않는다).
 
 TEDS 는 PubTabNet 정의를 따른다. HTML 표를 트리로 만들어 트리편집거리를 구하고
 노드 수로 정규화한 뒤 1 에서 뺀다. 셀 내용도 비교에 넣는 원래 TEDS 이며,
@@ -24,7 +26,22 @@ def norm_text(s):
 
 
 def cer(ref, hyp):
-    """문자 오류율. 0 이 완벽, 1 이상도 나올 수 있다(삽입이 많으면)."""
+    """문자 오류율. 항상 0~1 이다. 0 이 완벽, 1 이 전혀 못 맞춤.
+
+    편집거리를 GT 길이로 나누면(고전적 정의) 상한이 없다. 반복루프로 생성
+    상한까지 뱉으면 GT 2 자 크롭 하나가 CER 512 를 찍고 평균 전체를 지배한다
+    (exp_004: 7 건이 합계의 93.3%). 실험 간 비교가 불가능해지므로 분모를
+    max(len(GT), len(예측)) 로 둬 [0,1] 로 유계화한다 — 정규화 편집거리.
+    """
+    a, b = norm_text(ref), norm_text(hyp)
+    denom = max(len(a), len(b))
+    if denom == 0:
+        return 0.0
+    return Levenshtein.distance(a, b) / denom
+
+
+def cer_unbounded(ref, hyp):
+    """고전 정의(편집거리/GT길이). 1 을 넘을 수 있다 — 참고용, 비교 금지."""
     a, b = norm_text(ref), norm_text(hyp)
     if not a:
         return 0.0 if not b else 1.0

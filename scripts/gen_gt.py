@@ -54,7 +54,7 @@ def cer(a, b):
         return 0.0 if not b else 1.0
     sm = SequenceMatcher(None, a, b, autojunk=False)
     return sum(max(i2 - i1, j2 - j1) for t, i1, i2, j1, j2 in sm.get_opcodes()
-               if t != "equal") / len(a)
+               if t != "equal") / max(len(a), len(b))
 
 
 def call(url, model, b64, prompt, timeout=300):

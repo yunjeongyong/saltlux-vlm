@@ -62,7 +62,7 @@ def cer(ref, hyp):
         return 1.0 if hyp else 0.0
     sm = SequenceMatcher(None, ref, hyp, autojunk=False)
     return sum(max(i2 - i1, j2 - j1) for t, i1, i2, j1, j2 in sm.get_opcodes()
-               if t != "equal") / len(ref)
+               if t != "equal") / max(len(ref), len(hyp))
 
 
 def chat_prompt(proc, instr):
