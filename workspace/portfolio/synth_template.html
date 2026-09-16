@@ -1,0 +1,156 @@
+<title>합성 평가의 함정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#f6f7f5;--panel:#fdfdfc;--ink:#16181a;--ink-2:#4e5359;--muted:#8b8f95;
+  --rule:#dfe1dd;--rule-2:#eceee9;--accent:#1f5fb0;--hit:#a4402c;--hit-wash:rgba(164,64,44,.07);
+  --ok:#1b7a4b;--measure:64ch;
+}
+:root:not([data-theme="light"]){color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--ground:#131619;--panel:#191d21;--ink:#e9ecee;--ink-2:#a8aeb4;
+  --muted:#7d848b;--rule:#2b3037;--rule-2:#22272c;--accent:#7aa9e8;
+  --hit:#e08a76;--hit-wash:rgba(224,138,118,.10);--ok:#4fb783;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--ground:#131619;--panel:#191d21;--ink:#e9ecee;--ink-2:#a8aeb4;
+  --muted:#7d848b;--rule:#2b3037;--rule-2:#22272c;--accent:#7aa9e8;
+  --hit:#e08a76;--hit-wash:rgba(224,138,118,.10);--ok:#4fb783;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+ font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;
+ font-size:16px;line-height:1.76;letter-spacing:-.003em;-webkit-font-smoothing:antialiased}
+.wrap{max-width:58rem;margin:0 auto;padding:0 1.5rem 6rem}
+@media(max-width:760px){.wrap{padding:0 1.1rem 4rem}}
+header{padding:4rem 0 0}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:500;
+ letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:"Gowun Batang",serif;font-weight:700;font-size:clamp(2rem,5vw,2.85rem);
+ line-height:1.18;margin:.5rem 0 0;text-wrap:balance;letter-spacing:-.02em}
+.lede{margin:1.1rem 0 0;max-width:var(--measure);color:var(--ink-2);font-size:1.02rem}
+.setup{margin:2.1rem 0 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr))}
+.setup div{padding:.8rem 0;border-right:1px solid var(--rule-2)}
+.setup div:last-child{border-right:0}
+.setup dt{font-family:"IBM Plex Mono",monospace;font-size:.67rem;letter-spacing:.13em;
+ text-transform:uppercase;color:var(--muted);margin:0 0 .28rem}
+.setup dd{margin:0;font-size:.9rem;font-weight:500;line-height:1.45}
+section{margin:3.6rem 0 0}
+h2{font-family:"Gowun Batang",serif;font-weight:700;font-size:1.55rem;margin:0 0 .5rem;
+ letter-spacing:-.015em;text-wrap:balance}
+.sd{margin:0 0 1.4rem;color:var(--ink-2);font-size:.95rem;max-width:var(--measure)}
+.body{max-width:var(--measure)}.body p{margin:1rem 0 0}
+.sr{display:grid;grid-template-columns:8.5rem 1fr 4rem 5.5rem;gap:.9rem;align-items:center;
+ padding:.62rem 0;border-bottom:1px solid var(--rule-2)}
+@media(max-width:640px){.sr{grid-template-columns:1fr 3.5rem;gap:.4rem}
+ .sr .tk{grid-column:1/-1;order:3}}
+.sn{font-family:"IBM Plex Mono",monospace;font-size:.85rem;font-weight:500}
+.sn em{display:block;font-style:normal;font-family:"IBM Plex Sans KR",sans-serif;
+ font-size:.72rem;color:var(--muted);margin-top:.05rem}
+.sr.hit .sn em{color:var(--hit);font-weight:500}
+.tk{height:14px;background:var(--rule-2);border-radius:1px}
+.tk i{display:block;height:100%;background:var(--accent);border-radius:1px}
+.sr.hit .tk i{background:var(--hit)}
+.sr b{font-family:"IBM Plex Mono",monospace;font-size:.88rem;font-variant-numeric:tabular-nums;
+ text-align:right}
+.sc{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--muted);text-align:right}
+.card{display:grid;grid-template-columns:15rem 1fr;gap:1.3rem;padding:1.2rem 0;
+ border-bottom:1px solid var(--rule)}
+@media(max-width:760px){.card{grid-template-columns:1fr;gap:.7rem}}
+.ci img{width:100%;display:block;border:1px solid var(--rule);background:#fff;border-radius:2px}
+.cm{margin-top:.4rem;font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--muted)}
+.cb{min-width:0;display:flex;flex-direction:column;gap:2px}
+.gt,.pv{display:grid;grid-template-columns:4rem 1fr 4.5rem;gap:.6rem;align-items:baseline;
+ padding:.3rem .5rem;border-radius:2px;min-width:0}
+.gt{background:var(--rule-2);margin-bottom:.3rem}
+.pv.hit{background:var(--hit-wash)}
+.pn{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--muted);font-weight:500}
+.gt .pn{color:var(--ink)}
+.gt code,.pv code{font-family:"IBM Plex Mono",monospace;font-size:.76rem;line-height:1.55;
+ word-break:break-all;color:var(--ink);min-width:0}
+.pc{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--muted);text-align:right;
+ white-space:nowrap}
+.note{margin:1.4rem 0;padding:.9rem 1.1rem;border-left:2px solid var(--hit);
+ background:var(--panel);font-size:.92rem;color:var(--ink-2)}
+.note b{color:var(--ink)}
+code.inl{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--rule-2);
+ padding:.1em .34em;border-radius:2px}
+.close{margin:4rem 0 0;padding-top:2rem;border-top:2px solid var(--ink);max-width:var(--measure)}
+.close h2{font-size:1.42rem;margin:0 0 1rem}
+.close li{margin:0 0 .8rem}
+</style>
+<div class="wrap">
+<header>
+  <div class="kicker">LUXIA VLM · 평가 방법 진단</div>
+  <h1>합성 데이터로 평가하면<br>합성 학습 여부를 잰다</h1>
+  <p class="lede">자체 생성한 합성 영수증에서 크롭 24건을 떠 다섯 실험을 돌렸다.
+  <strong>합성 데이터로 학습한 두 실험이 압도적으로 이겼다.</strong>
+  그런데 실제 영수증 평가에서는 그 둘이 앞서지 않는다. 무엇을 잰 것인가.</p>
+  <dl class="setup">
+    <div><dt>크롭</dt><dd>24건<br>짧음 10 · 중간 8 · 긺 6</dd></div>
+    <div><dt>출처</dt><dd>합성 영수증<br>학습 미사용분</dd></div>
+    <div><dt>열화</dt><dd>회전·퇴색·블러<br>1~3종 중첩</dd></div>
+    <div><dt>크기</dt><dd>중앙값<br>179×48px</dd></div>
+  </dl>
+</header>
+
+<section>
+  <h2>완전일치 24건 중</h2>
+  <p class="sd">한 글자도 틀리지 않은 건수. 붉은 막대가 합성 데이터로 학습한 실험이다.</p>
+  {SUMMARY}
+  <div class="note"><b>합성 학습 여부로 두 배 넘게 갈린다.</b>
+  같은 평가셋에서 exp_003은 10건, exp_006은 23건이다. 그런데 실제 영수증 1,019건
+  평가에서는 exp_006(64.4%)이 exp_004(64.2%)를 못 넘었다.</div>
+</section>
+
+<section>
+  <h2>무엇이 갈랐는지 보면 명확하다</h2>
+  <p class="sd">아래는 합성 학습 여부로 답이 갈린 사례다. 붉은 배경이 합성 학습 실험.
+  공백은 <code class="inl">&middot;</code>로 표시했다.</p>
+  {CARDS}
+</section>
+
+<section class="body">
+  <h2>OCR 실력이 아니라 표기 규약을 외운 것</h2>
+  <p>갈린 지점이 세 가지로 모인다.</p>
+  <p><strong>공백 보존.</strong> 합성 라벨은 <code class="inl">[구 매]</code>,
+  <code class="inl">금회발생포인트&nbsp;&nbsp;&nbsp;&nbsp;60</code>처럼 원본의 여백을 그대로 둔다.
+  합성으로 학습한 모델만 이 규약을 따른다. 나머지는 공백을 하나로 압축한다 —
+  <strong>글자를 잘못 읽은 게 아니라 표기 관습이 다를 뿐이다.</strong></p>
+  <p><strong>상호·지점 어휘.</strong> 생성기의 브랜드 목록이 고정돼 있어,
+  합성 학습 모델은 <code class="inl">홈플러스 잠실점</code>을 맞히고 나머지는
+  <code class="inl">강남점</code>·<code class="inl">용클러스</code>로 흘린다.
+  이미지에서 읽은 게 아니라 <strong>후보 목록을 외운 것</strong>이다.</p>
+  <p><strong>폰트 글리프.</strong> <code class="inl">4,280</code>을
+  <code class="inl">4.288</code>로 읽는 오류가 합성 학습 모델에서만 사라진다.
+  렌더링에 쓴 폰트가 하나뿐이라 그 글자꼴에 특화된 것이다.</p>
+  <div class="note">평가에 쓴 이미지는 학습에 넣지 않았다. 그러나
+  <b>생성기·폰트·레이아웃·브랜드 목록이 같으면 같은 도메인</b>이다.
+  이미지 단위로 나누는 것만으로는 분리되지 않는다.</div>
+</section>
+
+<section class="body">
+  <h2>이것이 설명하는 것</h2>
+  <p>합성 영수증 14,000행을 학습에 넣은 실험이 실제 영수증 성능을 못 올렸다.
+  왜인지가 여기서 보인다 — <strong>합성에서만 통하는 것을 배웠다.</strong>
+  공백 규약, 브랜드 어휘, 단일 폰트의 글자꼴은 실물 감열지로 전이되지 않는다.</p>
+  <p>합성 데이터가 쓸모없다는 뜻은 아니다. 원본 영수증이 95장뿐인 상황에서
+  재료를 늘린 것은 맞다. 다만 <strong>지금의 합성은 실물의 난이도와 다양성을
+  재현하지 못한다.</strong> 폰트가 하나고, 브랜드가 목록이고, 열화가 실물보다 약하다.</p>
+</section>
+
+<div class="close">
+  <h2>그래서 무엇을 바꿔야 하나</h2>
+  <ul>
+    <li><strong>합성으로 모델을 평가하지 않는다.</strong> 학습 도메인 일치 여부를
+    재게 되어 순위가 뒤집힌다. 평가는 실물로만 한다.</li>
+    <li><strong>합성의 다양성을 늘린다.</strong> 폰트를 여러 벌 쓰고, 브랜드를
+    고정 목록이 아니라 생성 규칙으로 만들고, 열화 강도를 실물 분포에 맞춘다.</li>
+    <li><strong>표기 규약을 실물 라벨과 통일한다.</strong> 공백 처리처럼 사소해
+    보이는 차이가 모델의 출력 형식을 갈라놓는다.</li>
+  </ul>
+</div>
+</div>

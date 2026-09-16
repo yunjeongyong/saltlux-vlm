@@ -1,0 +1,110 @@
+<title>테스트셋 예측 비교</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--ground:#f6f7f5;--panel:#fdfdfc;--ink:#16181a;--ink2:#4e5359;--mut:#8b8f95;
+ --rule:#dfe1dd;--rule2:#eceee9;--accent:#1f5fb0;--ok:#1b7a4b;--bad:#a4402c;
+ --badbg:rgba(164,64,44,.07);--measure:64ch}
+:root:not([data-theme="light"]){color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+ --ground:#131619;--panel:#191d21;--ink:#e9ecee;--ink2:#a8aeb4;--mut:#7d848b;
+ --rule:#2b3037;--rule2:#22272c;--accent:#7aa9e8;--ok:#4fb783;--bad:#e08a76;
+ --badbg:rgba(224,138,118,.12)}}
+:root[data-theme="dark"]{color-scheme:dark;
+ --ground:#131619;--panel:#191d21;--ink:#e9ecee;--ink2:#a8aeb4;--mut:#7d848b;
+ --rule:#2b3037;--rule2:#22272c;--accent:#7aa9e8;--ok:#4fb783;--bad:#e08a76;
+ --badbg:rgba(224,138,118,.12)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+ font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;font-size:15px;line-height:1.7}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.4rem 6rem}
+header{padding:3.5rem 0 0}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--accent)}
+h1{font-family:"Gowun Batang",serif;font-weight:700;font-size:clamp(1.9rem,4.6vw,2.6rem);
+ line-height:1.2;margin:.5rem 0 0;letter-spacing:-.02em;text-wrap:balance}
+.lede{margin:1rem 0 0;max-width:var(--measure);color:var(--ink2);font-size:1rem}
+.setup{margin:2rem 0 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr))}
+.setup div{padding:.75rem 0;border-right:1px solid var(--rule2)}
+.setup div:last-child{border-right:0}
+.setup dt{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.13em;
+ text-transform:uppercase;color:var(--mut);margin:0 0 .25rem}
+.setup dd{margin:0;font-size:.88rem;font-weight:500;line-height:1.4}
+.note{margin:1.6rem 0 0;padding:.85rem 1.05rem;border-left:2px solid var(--bad);
+ background:var(--panel);font-size:.88rem;color:var(--ink2)}
+.note b{color:var(--ink)}
+h2{font-family:"Gowun Batang",serif;font-weight:700;font-size:1.45rem;margin:3rem 0 .4rem}
+.sd{margin:0 0 1.2rem;color:var(--ink2);font-size:.92rem;max-width:var(--measure)}
+.sr{display:grid;grid-template-columns:5rem 1fr 4.5rem 8rem;gap:.8rem;align-items:center;
+ padding:.55rem 0;border-bottom:1px solid var(--rule2)}
+@media(max-width:640px){.sr{grid-template-columns:1fr 4rem}.sr .tk{grid-column:1/-1;order:3}}
+.sn{font-family:"IBM Plex Mono",monospace;font-size:.82rem;font-weight:500}
+.tk{height:13px;background:var(--rule2);border-radius:1px}
+.tk i{display:block;height:100%;background:var(--accent);border-radius:1px}
+.sr b{font-family:"IBM Plex Mono",monospace;font-size:.85rem;text-align:right;
+ font-variant-numeric:tabular-nums}
+.sc{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--mut);text-align:right}
+.doc{border:1px solid var(--rule);border-radius:3px;margin:.5rem 0;background:var(--panel)}
+.doc>summary{cursor:pointer;padding:.6rem .9rem;font-family:"IBM Plex Mono",monospace;
+ font-size:.85rem;font-weight:500;list-style:none;display:flex;align-items:baseline;gap:.6rem}
+.doc>summary::-webkit-details-marker{display:none}
+.doc>summary::before{content:"▸";color:var(--mut);font-size:.8rem}
+.doc[open]>summary::before{content:"▾"}
+.doc>summary em{font-style:normal;font-family:"IBM Plex Sans KR",sans-serif;
+ font-size:.76rem;color:var(--mut)}
+.dn{min-width:6.5rem}
+.bds{display:flex;gap:.3rem;margin-left:auto;flex-wrap:wrap}
+.bd{display:inline-flex;align-items:baseline;gap:.25rem;padding:.05rem .4rem;
+ border:1px solid var(--rule);border-radius:2px;font-size:.66rem;color:var(--mut);
+ background:var(--ground)}
+.bd em{font-style:normal;font-size:.74rem;color:var(--ink2);font-weight:600}
+.bd.top{border-color:var(--ok)}
+.bd.top em{color:var(--ok)}
+@media(max-width:640px){.bds{width:100%;margin-left:0;order:3}}
+.doc>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.card{display:grid;grid-template-columns:14rem 1fr;gap:1rem;padding:.85rem .9rem;
+ border-top:1px solid var(--rule2)}
+@media(max-width:760px){.card{grid-template-columns:1fr;gap:.5rem}}
+.ci img{max-width:100%;display:block;border:1px solid var(--rule);background:#fff;border-radius:2px}
+.cm{margin-top:.3rem;font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--mut)}
+.cb{min-width:0;display:flex;flex-direction:column;gap:2px}
+.row{display:grid;grid-template-columns:4rem 1fr 4.6rem;gap:.5rem;align-items:baseline;
+ padding:.26rem .42rem;border-radius:2px;min-width:0}
+.row.gt{background:var(--rule2);margin-bottom:.25rem}
+.row.miss{background:var(--badbg)}
+.nm{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--mut);font-weight:500}
+.row.gt .nm{color:var(--ink)}
+.tx{font-family:"IBM Plex Mono",monospace;font-size:.74rem;line-height:1.5;
+ white-space:pre-wrap;word-break:break-all;min-width:0}
+.sc2{font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--mut);
+ text-align:right;white-space:nowrap}
+.sc2.ok{color:var(--ok)}
+</style>
+<div class="wrap">
+<header>
+  <div class="kicker">LUXIA VLM · 테스트셋 예측 비교</div>
+  <h1>같은 크롭에 다섯 모델이<br>무엇이라 답했나</h1>
+  <p class="lede">테스트셋 영수증에서 잘라낸 블록 크롭마다 정답과 다섯 실험의 예측을
+  나란히 놓았다. 틀린 예측은 배경으로 표시된다. 영수증 이름을 눌러 펼친다.</p>
+  <dl class="setup">
+    <div><dt>문서</dt><dd>{NDOC}장<br>테스트 분할</dd></div>
+    <div><dt>크롭</dt><dd>{NCROP}건<br>텍스트 + 표</dd></div>
+    <div><dt>모델</dt><dd>5종<br>exp_003 ~ exp_007</dd></div>
+    <div><dt>지표</dt><dd>텍스트 CER<br>표 TEDS</dd></div>
+  </dl>
+  <div class="note"><b>개인정보가 포함된 크롭은 제외했다.</b>
+  사업자등록번호·전화번호·카드번호형·주소가 들어간 크롭과, 상호·대표자가 나오는
+  제목·머리말·꼬리말 블록을 뺐다. 테스트셋 507건 중 {NCROP}건이 남았다.
+  전량은 사내망에서만 본다.</div>
+</header>
+
+<h2>모델별 완전일치</h2>
+<p class="sd">텍스트 크롭을 한 글자도 틀리지 않고 읽어낸 비율.</p>
+{SUMMARY}
+
+<h2>영수증별 예측</h2>
+<p class="sd">한 장씩 펼쳐 크롭 단위로 확인한다.</p>
+{DOCS}
+</div>

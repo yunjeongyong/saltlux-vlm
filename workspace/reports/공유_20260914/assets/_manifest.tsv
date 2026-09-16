@@ -1,0 +1,100 @@
+slide	case	file	desc
+slide09_학습데이터	s01_영수증크롭_생성synth_v2	slide09_학습데이터/s01_영수증크롭_생성synth_v2/01_학습이미지.jpg	영수증 크롭 전사 · 생성 synth_v2 · 1,487행 — 학습 이미지 원본 (241×37px)
+slide09_학습데이터	s01_영수증크롭_생성synth_v2	slide09_학습데이터/s01_영수증크롭_생성synth_v2/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s01_영수증크롭_생성synth_v2	slide09_학습데이터/s01_영수증크롭_생성synth_v2/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s02_영수증_사내실문서	slide09_학습데이터/s02_영수증_사내실문서/01_학습이미지.jpg	영수증 마크다운 · 사내 실문서(실제 촬영) · 720행 — 학습 이미지 원본 (376×750px)
+slide09_학습데이터	s02_영수증_사내실문서	slide09_학습데이터/s02_영수증_사내실문서/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s02_영수증_사내실문서	slide09_학습데이터/s02_영수증_사내실문서/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s03_BL서식_생성std_hb	slide09_학습데이터/s03_BL서식_생성std_hb/01_학습이미지.jpg	B/L 서식 · 생성 std_hb(선임 제공) · 435행 — 학습 이미지 원본 (1316×1454px)
+slide09_학습데이터	s03_BL서식_생성std_hb	slide09_학습데이터/s03_BL서식_생성std_hb/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s03_BL서식_생성std_hb	slide09_학습데이터/s03_BL서식_생성std_hb/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s04_발주서_생성ctg	slide09_학습데이터/s04_발주서_생성ctg/01_학습이미지.jpg	발주서 · 생성 ctg_quotation · 252행 — 학습 이미지 원본 (1390×999px)
+slide09_학습데이터	s04_발주서_생성ctg	slide09_학습데이터/s04_발주서_생성ctg/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s04_발주서_생성ctg	slide09_학습데이터/s04_발주서_생성ctg/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s05_인보이스_public_donut	slide09_학습데이터/s05_인보이스_public_donut/01_학습이미지.jpg	인보이스 · public invoices-donut (MIT) · 491행 — 학습 이미지 원본 (2481×3508px)
+slide09_학습데이터	s05_인보이스_public_donut	slide09_학습데이터/s05_인보이스_public_donut/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s05_인보이스_public_donut	slide09_학습데이터/s05_인보이스_public_donut/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s06_학술표_PubTabNet_NC	slide09_학습데이터/s06_학술표_PubTabNet_NC/01_학습이미지.jpg	학술 표 · public PubTabNet (CC BY-NC-SA, 상용 불가) · 5,461행 — 학습 이미지 원본 (486×125px)
+slide09_학습데이터	s06_학술표_PubTabNet_NC	slide09_학습데이터/s06_학술표_PubTabNet_NC/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s06_학술표_PubTabNet_NC	slide09_학습데이터/s06_학술표_PubTabNet_NC/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s07_공공행정_AIHub	slide09_학습데이터/s07_공공행정_AIHub/01_학습이미지.jpg	공공행정 · public AI-Hub 71299 · 2,000행 — 학습 이미지 원본 (2088×2944px)
+slide09_학습데이터	s07_공공행정_AIHub	slide09_학습데이터/s07_공공행정_AIHub/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s07_공공행정_AIHub	slide09_학습데이터/s07_공공행정_AIHub/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s08_전체텍스트_AIHub멀티모달	slide09_학습데이터/s08_전체텍스트_AIHub멀티모달/01_학습이미지.jpg	전체텍스트 · public AI-Hub 멀티모달 · 2,341행 — 학습 이미지 원본 (2480×3508px)
+slide09_학습데이터	s08_전체텍스트_AIHub멀티모달	slide09_학습데이터/s08_전체텍스트_AIHub멀티모달/02_정답텍스트.png	그 이미지에 붙은 학습 정답(assistant) 텍스트
+slide09_학습데이터	s08_전체텍스트_AIHub멀티모달	slide09_학습데이터/s08_전체텍스트_AIHub멀티모달/03_지시문.png	그 행의 지시문(user 프롬프트)
+slide09_학습데이터	s09_생성데이터_영수증_단조	slide09_학습데이터/s09_생성데이터_영수증_단조/01_영수증생성_synth_v1.jpg	영수증 생성 데이터 (synth_v1) — 4열 표 고정 레이아웃 예시 1/3 (720×615)
+slide09_학습데이터	s09_생성데이터_영수증_단조	slide09_학습데이터/s09_생성데이터_영수증_단조/02_영수증생성_synth_v1.jpg	영수증 생성 데이터 (synth_v1) — 4열 표 고정 레이아웃 예시 2/3 (720×653)
+slide09_학습데이터	s09_생성데이터_영수증_단조	slide09_학습데이터/s09_생성데이터_영수증_단조/03_영수증생성_synth_v2.jpg	영수증 생성 데이터 (synth_v2) — 4열 표 고정 레이아웃 예시 3/3 (930×1146)
+slide09_학습데이터	s10_생성데이터_서식_다양	slide09_학습데이터/s10_생성데이터_서식_다양/01_서식생성_bill_of_lading_std_hb.jpg	서식 생성 데이터 (doc_parsing/bill_of_lading · std_hb) 예시 1/3 (1316×1454)
+slide09_학습데이터	s10_생성데이터_서식_다양	slide09_학습데이터/s10_생성데이터_서식_다양/02_서식생성_tax_invoice_ctg_typst_v2.jpg	서식 생성 데이터 (doc_parsing/tax_invoice · ctg_typst_v2) 예시 2/3 (1350×956)
+slide09_학습데이터	s10_생성데이터_서식_다양	slide09_학습데이터/s10_생성데이터_서식_다양/03_서식생성_request_for_quotation_ctg_quotation_v1.jpg	서식 생성 데이터 (doc_parsing/request_for_quotation · ctg_quotation_v1) 예시 3/3 (1350×924)
+slide11_학습결과_SS	c01_영수증_receipt33_대표	slide11_학습결과_SS/c01_영수증_receipt33_대표/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c01_영수증_receipt33_대표	slide11_학습결과_SS/c01_영수증_receipt33_대표/01_원본문서.jpg	입력 문서 원본 (3024×4032px)
+slide11_학습결과_SS	c01_영수증_receipt33_대표	slide11_학습결과_SS/c01_영수증_receipt33_대표/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c01_영수증_receipt33_대표	slide11_학습결과_SS/c01_영수증_receipt33_대표/03_모델출력_KIE.png	모델(exp_004) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c01_영수증_receipt33_대표	slide11_학습결과_SS/c01_영수증_receipt33_대표/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 15/17 일치, 문서 정확도 0.933
+slide11_학습결과_SS	c02_견적서_quotation-15_대표	slide11_학습결과_SS/c02_견적서_quotation-15_대표/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c02_견적서_quotation-15_대표	slide11_학습결과_SS/c02_견적서_quotation-15_대표/01_원본문서.jpg	입력 문서 원본 (768×1024px)
+slide11_학습결과_SS	c02_견적서_quotation-15_대표	slide11_학습결과_SS/c02_견적서_quotation-15_대표/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c02_견적서_quotation-15_대표	slide11_학습결과_SS/c02_견적서_quotation-15_대표/03_모델출력_KIE.png	모델(exp_004) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c02_견적서_quotation-15_대표	slide11_학습결과_SS/c02_견적서_quotation-15_대표/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 36/40 일치, 문서 정확도 0.914
+slide11_학습결과_SS	c03_계산서_invoice-58_대표	slide11_학습결과_SS/c03_계산서_invoice-58_대표/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c03_계산서_invoice-58_대표	slide11_학습결과_SS/c03_계산서_invoice-58_대표/01_원본문서.jpg	입력 문서 원본 (1654×2340px)
+slide11_학습결과_SS	c03_계산서_invoice-58_대표	slide11_학습결과_SS/c03_계산서_invoice-58_대표/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c03_계산서_invoice-58_대표	slide11_학습결과_SS/c03_계산서_invoice-58_대표/03_모델출력_KIE.png	모델(exp_004) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c03_계산서_invoice-58_대표	slide11_학습결과_SS/c03_계산서_invoice-58_대표/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 19/25 일치, 문서 정확도 0.838
+slide11_학습결과_SS	c04_명세서_bill-14_대표	slide11_학습결과_SS/c04_명세서_bill-14_대표/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c04_명세서_bill-14_대표	slide11_학습결과_SS/c04_명세서_bill-14_대표/01_원본문서.jpg	입력 문서 원본 (1654×2340px)
+slide11_학습결과_SS	c04_명세서_bill-14_대표	slide11_학습결과_SS/c04_명세서_bill-14_대표/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c04_명세서_bill-14_대표	slide11_학습결과_SS/c04_명세서_bill-14_대표/03_모델출력_KIE.png	모델(exp_004) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c04_명세서_bill-14_대표	slide11_학습결과_SS/c04_명세서_bill-14_대표/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 31/36 일치, 문서 정확도 0.864
+slide11_학습결과_SS	c05_잘된케이스_quotation-47	slide11_학습결과_SS/c05_잘된케이스_quotation-47/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c05_잘된케이스_quotation-47	slide11_학습결과_SS/c05_잘된케이스_quotation-47/01_원본문서.jpg	입력 문서 원본 (1308×1851px)
+slide11_학습결과_SS	c05_잘된케이스_quotation-47	slide11_학습결과_SS/c05_잘된케이스_quotation-47/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c05_잘된케이스_quotation-47	slide11_학습결과_SS/c05_잘된케이스_quotation-47/03_모델출력_KIE.png	모델(exp_009) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c05_잘된케이스_quotation-47	slide11_학습결과_SS/c05_잘된케이스_quotation-47/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 40/40 일치, 문서 정확도 1.000
+slide11_학습결과_SS	c06_실패_명세서_bill-50_긴텍스트	slide11_학습결과_SS/c06_실패_명세서_bill-50_긴텍스트/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c06_실패_명세서_bill-50_긴텍스트	slide11_학습결과_SS/c06_실패_명세서_bill-50_긴텍스트/01_원본문서.jpg	입력 문서 원본 (1654×2340px)
+slide11_학습결과_SS	c06_실패_명세서_bill-50_긴텍스트	slide11_학습결과_SS/c06_실패_명세서_bill-50_긴텍스트/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c06_실패_명세서_bill-50_긴텍스트	slide11_학습결과_SS/c06_실패_명세서_bill-50_긴텍스트/03_모델출력_KIE.png	모델(exp_004) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c06_실패_명세서_bill-50_긴텍스트	slide11_학습결과_SS/c06_실패_명세서_bill-50_긴텍스트/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 27/40 일치, 문서 정확도 0.741
+slide11_학습결과_SS	c07_실패_영수증_receipt01_저해상도	slide11_학습결과_SS/c07_실패_영수증_receipt01_저해상도/05_모델_파싱출력_원문.png	KIE 이전 단계 — VLM 이 뱉은 마크다운/HTML 표 원문 (표 태그는 '|' 로 풀어 표시)
+slide11_학습결과_SS	c07_실패_영수증_receipt01_저해상도	slide11_학습결과_SS/c07_실패_영수증_receipt01_저해상도/01_원본문서.jpg	입력 문서 원본 (298×671px) — 폭 298px 저해상도
+slide11_학습결과_SS	c07_실패_영수증_receipt01_저해상도	slide11_학습결과_SS/c07_실패_영수증_receipt01_저해상도/02_정답_KIE.png	정답 KIE 필드 (kie_dataset)
+slide11_학습결과_SS	c07_실패_영수증_receipt01_저해상도	slide11_학습결과_SS/c07_실패_영수증_receipt01_저해상도/03_모델출력_KIE.png	모델(exp_004) KIE 출력 — 정답과 다른 필드는 주황/빨강 배경
+slide11_학습결과_SS	c07_실패_영수증_receipt01_저해상도	slide11_학습결과_SS/c07_실패_영수증_receipt01_저해상도/04_대조표_정답vs모델.png	정답 vs 모델 대조표 — 13/26 일치, 문서 정확도 0.639
+slide11_학습결과_SS	c07_실패_영수증_receipt01_저해상도	slide11_학습결과_SS/c07_실패_영수증_receipt01_저해상도/06_품목영역_3배확대.png	품목 영역 3배 확대 — 글자가 뭉개져 있음 (오독 원인)
+slide15_문제_학습셋오염	f01_FATURA2_라벨누락_pubinv_fatura_train_00787	slide15_문제_학습셋오염/f01_FATURA2_라벨누락_pubinv_fatura_train_00787/01_학습이미지_표있음.jpg	FATURA2 학습 이미지 원본 — 품목 표가 선명함 (595×841)
+slide15_문제_학습셋오염	f01_FATURA2_라벨누락_pubinv_fatura_train_00787	slide15_문제_학습셋오염/f01_FATURA2_라벨누락_pubinv_fatura_train_00787/02_학습에쓰인정답_표없음.png	exp_012·013 학습에 쓰인 정답 — 품목 표가 통째로 없음
+slide15_문제_학습셋오염	f01_FATURA2_라벨누락_pubinv_fatura_train_00787	slide15_문제_학습셋오염/f01_FATURA2_라벨누락_pubinv_fatura_train_00787/03_복원정답_표채움.png	exp_015 복원 정답 — exp_009 로 표를 읽어 채우고 SUB_TOTAL 로 검산
+slide15_문제_학습셋오염	f01_FATURA2_라벨누락_pubinv_fatura_train_00787	slide15_문제_학습셋오염/f01_FATURA2_라벨누락_pubinv_fatura_train_00787/04_지시문.png	이 행의 지시문 — '표는 HTML <table> 로 출력' 을 요구
+slide15_문제_학습셋오염	f02_표누락_quotation-14_exp009_vs_exp013	slide15_문제_학습셋오염/f02_표누락_quotation-14_exp009_vs_exp013/01_원본문서.jpg	견적서 quotation-14 원본 — 품목 표 26행 (768×1024)
+slide15_문제_학습셋오염	f02_표누락_quotation-14_exp009_vs_exp013	slide15_문제_학습셋오염/f02_표누락_quotation-14_exp009_vs_exp013/02_정답_파싱.png	SS 제공 정답 파싱 결과
+slide15_문제_학습셋오염	f02_표누락_quotation-14_exp009_vs_exp013	slide15_문제_학습셋오염/f02_표누락_quotation-14_exp009_vs_exp013/03_exp009_출력_표있음.png	exp_009(깨끗한 셋) 출력 — 표 26행 출력, KIE 0.982
+slide15_문제_학습셋오염	f02_표누락_quotation-14_exp009_vs_exp013	slide15_문제_학습셋오염/f02_표누락_quotation-14_exp009_vs_exp013/04_exp013_출력_표없음.png	exp_013(오염 셋) 출력 — 표 0행, KIE 0.144
+slide14_오류유형	o01_오타교정_receipt06	slide14_오류유형/o01_오타교정_receipt06/01_원본문서.jpg	영수증 receipt06 원본 (285×680)
+slide14_오류유형	o01_오타교정_receipt06	slide14_오류유형/o01_오타교정_receipt06/02_품목영역_3배확대.png	품목 영역 3배 확대 — 'P브로커리' 인쇄 확인
+slide14_오류유형	o01_오타교정_receipt06	slide14_오류유형/o01_오타교정_receipt06/03_정답vs모델_브로커리.png	정답 vs 모델 — 원본 오타를 모델이 교정해버린 사례
+slide14_오류유형	o02_정규화차이_날짜	slide14_오류유형/o02_정규화차이_날짜/01_날짜정규화_감점사례.png	내용은 같은데 표기만 달라 감점되는 사례 3건
+slide13_CER정체원인	f01_형식차이	slide13_CER정체원인/f01_형식차이/01_크롭이미지.png	형식 차이 — 【영수증】 vs [영수증] — 크롭 원본(확대)
+slide13_CER정체원인	f01_형식차이	slide13_CER정체원인/f01_형식차이/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	g01_GT오류_크롭밖줄포함	slide13_CER정체원인/g01_GT오류_크롭밖줄포함/01_크롭이미지.png	GT 오류 — GT가 크롭 밖 2번째 줄 포함, 모델은 정확 — 크롭 원본(확대)
+slide13_CER정체원인	g01_GT오류_크롭밖줄포함	slide13_CER정체원인/g01_GT오류_크롭밖줄포함/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	g02_GT오류_GT부분누락	slide13_CER정체원인/g02_GT오류_GT부분누락/01_크롭이미지.png	GT 오류 — GT가 크롭 앞부분 누락, 모델(exp_011)이 맞음 — 크롭 원본(확대)
+slide13_CER정체원인	g02_GT오류_GT부분누락	slide13_CER정체원인/g02_GT오류_GT부분누락/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	g03_GT오류_bbox과대	slide13_CER정체원인/g03_GT오류_bbox과대/01_크롭이미지.png	GT 오류 — bbox 4줄인데 GT 1줄 — 크롭 원본(확대)
+slide13_CER정체원인	g03_GT오류_bbox과대	slide13_CER정체원인/g03_GT오류_bbox과대/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	g04_GT오류_오타	slide13_CER정체원인/g04_GT오류_오타/01_크롭이미지.png	GT 오타 — 이미지 '1층', GT '1号' — 크롭 원본(확대)
+slide13_CER정체원인	g04_GT오류_오타	slide13_CER정체원인/g04_GT오류_오타/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	g05_GT오류_오타	slide13_CER정체원인/g05_GT오류_오타/01_크롭이미지.png	GT 오타 — 이미지 '우즈', GT '무즈' — 크롭 원본(확대)
+slide13_CER정체원인	g05_GT오류_오타	slide13_CER정체원인/g05_GT오류_오타/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	m01_모델오독_흐림	slide13_CER정체원인/m01_모델오독_흐림/01_크롭이미지.png	진짜 모델 오독 — 흐린 '테이블'→'001' — 크롭 원본(확대)
+slide13_CER정체원인	m01_모델오독_흐림	slide13_CER정체원인/m01_모델오독_흐림/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	m02_모델누락_잘림	slide13_CER정체원인/m02_모델누락_잘림/01_크롭이미지.png	진짜 모델 누락 — 잘린 끝줄 생략 — 크롭 원본(확대)
+slide13_CER정체원인	m02_모델누락_잘림	slide13_CER정체원인/m02_모델누락_잘림/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	r01_회전이미지	slide13_CER정체원인/r01_회전이미지/01_크롭이미지.png	회전 90° 영수증 크롭 (val_receipt34) — 4개 모델 전부 실패 — 크롭 원본(확대)
+slide13_CER정체원인	r01_회전이미지	slide13_CER정체원인/r01_회전이미지/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	r02_회전이미지	slide13_CER정체원인/r02_회전이미지/01_크롭이미지.png	회전 90° 영수증 크롭 (val_receipt67) — 크롭 원본(확대)
+slide13_CER정체원인	r02_회전이미지	slide13_CER정체원인/r02_회전이미지/02_정답vs모델4개.png	정답 vs exp_004·009·010·011 출력 + CER
+slide13_CER정체원인	_전체목록	slide13_CER정체원인/00_지속실패76건_전체목록.png	지속 실패 76건 전체 목록 (crop_id · 유형 · GT → exp_011)

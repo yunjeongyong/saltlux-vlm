@@ -1,0 +1,175 @@
+<title>평가셋이 순위를 못 매긴다</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#f6f7f5; --panel:#fdfdfc; --ink:#16181a; --ink-2:#4e5359;
+  --muted:#8b8f95; --rule:#dfe1dd; --rule-2:#eceee9;
+  --val:#2a78d6; --test:#eb6834; --accent:#1f5fb0;
+  --flag:#a4402c; --ok:#1b7a4b; --measure:66ch;
+}
+:root:not([data-theme="light"]){color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#131619; --panel:#191d21; --ink:#e9ecee; --ink-2:#a8aeb4;
+  --muted:#7d848b; --rule:#2b3037; --rule-2:#22272c;
+  --val:#3987e5; --test:#d95926; --accent:#7aa9e8;
+  --flag:#e08a76; --ok:#4fb783;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#131619; --panel:#191d21; --ink:#e9ecee; --ink-2:#a8aeb4;
+  --muted:#7d848b; --rule:#2b3037; --rule-2:#22272c;
+  --val:#3987e5; --test:#d95926; --accent:#7aa9e8;
+  --flag:#e08a76; --ok:#4fb783;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+ font-family:"IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;
+ font-size:16px;line-height:1.76;letter-spacing:-.003em;-webkit-font-smoothing:antialiased}
+.wrap{max-width:56rem;margin:0 auto;padding:0 1.5rem 6rem}
+@media(max-width:760px){.wrap{padding:0 1.1rem 4rem}}
+header{padding:4rem 0 0}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:500;
+ letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:"Gowun Batang",serif;font-weight:700;
+ font-size:clamp(2rem,5vw,2.9rem);line-height:1.18;margin:.5rem 0 0;
+ text-wrap:balance;letter-spacing:-.02em}
+.lede{margin:1.1rem 0 0;max-width:var(--measure);color:var(--ink-2);font-size:1.02rem}
+.setup{margin:2.2rem 0 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr))}
+.setup div{padding:.8rem 0;border-right:1px solid var(--rule-2)}
+.setup div:last-child{border-right:0}
+.setup dt{font-family:"IBM Plex Mono",monospace;font-size:.67rem;letter-spacing:.13em;
+ text-transform:uppercase;color:var(--muted);margin:0 0 .28rem}
+.setup dd{margin:0;font-size:.9rem;font-weight:500;line-height:1.45;
+ font-variant-numeric:tabular-nums}
+.find{margin:2.4rem 0 0;padding:1.35rem 1.5rem;background:var(--panel);
+ border:1px solid var(--rule);border-left:3px solid var(--flag)}
+.find h2{font-family:"Gowun Batang",serif;font-size:1.3rem;margin:0 0 .55rem;font-weight:700}
+.find p{margin:0;color:var(--ink-2);font-size:.96rem;max-width:var(--measure)}
+section{margin:4rem 0 0}
+h2.sec{font-family:"Gowun Batang",serif;font-weight:700;font-size:1.55rem;
+ margin:0 0 .4rem;letter-spacing:-.015em}
+.sd{margin:0 0 1.6rem;color:var(--ink-2);font-size:.95rem;max-width:var(--measure)}
+.legend{display:flex;gap:1.15rem;align-items:center;margin:0 0 1.1rem;
+ font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;color:var(--ink-2)}
+.legend i{display:inline-block;width:.72rem;height:.72rem;margin-right:.4rem;
+ vertical-align:-1px;border-radius:1px}
+.legend .lv i{background:var(--val)} .legend .lt i{background:var(--test)}
+.grp{display:grid;grid-template-columns:8.5rem 1fr;gap:1.1rem;align-items:center;
+ padding:.85rem 0;border-bottom:1px solid var(--rule-2)}
+@media(max-width:640px){.grp{grid-template-columns:1fr;gap:.35rem}}
+.gl{font-family:"IBM Plex Mono",monospace;font-size:.85rem;font-weight:500}
+.gl em{display:block;font-style:normal;font-family:"IBM Plex Sans KR",sans-serif;
+ font-size:.74rem;color:var(--muted);margin-top:.1rem}
+.gb{display:flex;flex-direction:column;gap:4px;min-width:0}
+.bar{display:grid;grid-template-columns:2.6rem 1fr 4.2rem;gap:.6rem;align-items:center}
+.tick{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--muted);
+ letter-spacing:.06em}
+.track{height:14px;background:var(--rule-2);position:relative;border-radius:1px}
+.track i{display:block;height:100%;border-radius:1px}
+.bar.v .track i{background:var(--val)} .bar.t .track i{background:var(--test)}
+.bar b{font-family:"IBM Plex Mono",monospace;font-size:.83rem;font-weight:500;
+ font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.rk{margin:1.4rem 0 0;padding:1.1rem 1.25rem;background:var(--panel);border:1px solid var(--rule)}
+.rkr{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.5rem}
+.rkl{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;
+ text-transform:uppercase;color:var(--muted);width:2.6rem;flex:none}
+.chip{display:inline-flex;align-items:baseline;gap:.35rem;padding:.16rem .55rem;
+ border:1px solid var(--rule);border-radius:2px;font-family:"IBM Plex Mono",monospace;
+ font-size:.72rem;color:var(--muted);background:var(--ground)}
+.chip em{font-style:normal;font-size:.8rem;color:var(--ink);font-weight:500}
+.rkv{margin:.6rem 0 0;font-size:.86rem;font-weight:600}
+.rkv.no{color:var(--flag)} .rkv.ok{color:var(--ok)}
+.body{max-width:var(--measure)}
+.body p{margin:1rem 0 0}
+code{font-family:"IBM Plex Mono",monospace;font-size:.86em;
+ background:var(--rule-2);padding:.1em .34em;border-radius:2px}
+.close{margin:4.5rem 0 0;padding-top:2rem;border-top:2px solid var(--ink);max-width:var(--measure)}
+.close h2{font-family:"Gowun Batang",serif;font-weight:700;font-size:1.45rem;margin:0 0 1rem}
+.close li{margin:0 0 .8rem}
+.pend{margin:2.5rem 0 0;padding:.9rem 1.15rem;border:1px dashed var(--rule);
+ font-size:.87rem;color:var(--muted)}
+</style>
+<div class="wrap">
+<header>
+  <div class="kicker">LUXIA VLM · 평가셋 진단</div>
+  <h1>같은 모델에 val과 test가<br>다른 순위를 매긴다</h1>
+  <p class="lede">exp_003부터 exp_006까지 네 실험을 검증셋과 테스트셋으로 나눠 다시 쟀다.
+  두 셋은 문서가 겹치지 않는데도 <strong>모델 순위가 뒤바뀐다.</strong>
+  평가셋이 모델을 줄 세우기에는 작다는 뜻이다.</p>
+  <dl class="setup">
+    <div><dt>검증셋</dt><dd>영수증 45장<br>크롭 512건</dd></div>
+    <div><dt>테스트셋</dt><dd>영수증 47장<br>크롭 507건</dd></div>
+    <div><dt>문서 겹침</dt><dd>0장</dd></div>
+    <div><dt>측정</dt><dd>텍스트 CER<br>표 TEDS</dd></div>
+  </dl>
+  <div class="find">
+    <h2>순위가 뒤집히는 건 표에서 특히 심하다</h2>
+    <p>텍스트 완전일치율은 1·4위만 같고 2·3위가 자리를 바꾼다. 표 구조 점수는 네 실험의
+    순서가 거의 반대로 뒤집힌다. 표 크롭이 검증셋 46건 · 테스트셋 52건뿐이라, 몇 건의
+    차이가 전체 순위를 흔든다.</p>
+  </div>
+</header>
+
+<section>
+  <h2 class="sec">텍스트 완전일치율</h2>
+  <p class="sd">크롭을 한 글자도 틀리지 않고 읽어낸 비율. 검증셋 466건 / 테스트셋 455건.</p>
+  <div class="legend"><span class="lv"><i></i>검증셋</span><span class="lt"><i></i>테스트셋</span></div>
+  <div class="grp"><div class="gl">exp_003<em>4,496행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:78.2%"></i></div><b>54.1%</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:87.4%"></i></div><b>60.4%</b></div></div></div><div class="grp"><div class="gl">exp_004<em>11,173행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:92.1%"></i></div><b>63.7%</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:93.4%"></i></div><b>64.6%</b></div></div></div><div class="grp"><div class="gl">exp_005<em>+온라인 증강</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:94.3%"></i></div><b>65.2%</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:94.3%"></i></div><b>65.3%</b></div></div></div><div class="grp"><div class="gl">exp_006<em>50,457행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:92.1%"></i></div><b>63.7%</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:94.0%"></i></div><b>65.1%</b></div></div></div>
+  <div class="rk"><div class="rkr"><span class="rkl">val</span><span class="chip">1<em>exp_005</em></span><span class="chip">2<em>exp_004</em></span><span class="chip">3<em>exp_006</em></span><span class="chip">4<em>exp_003</em></span></div><div class="rkr"><span class="rkl">test</span><span class="chip">1<em>exp_005</em></span><span class="chip">2<em>exp_006</em></span><span class="chip">3<em>exp_004</em></span><span class="chip">4<em>exp_003</em></span></div><p class="rkv no">두 셋의 순위가 다르다</p></div>
+</section>
+
+<section>
+  <h2 class="sec">표 구조 TEDS</h2>
+  <p class="sd">표를 HTML 트리로 옮겼을 때의 구조 유사도. 검증셋 46건 / 테스트셋 52건 —
+  네 지표 중 표본이 가장 적다.</p>
+  <div class="legend"><span class="lv"><i></i>검증셋</span><span class="lt"><i></i>테스트셋</span></div>
+  <div class="grp"><div class="gl">exp_003<em>4,496행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:89.0%"></i></div><b>0.7060</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:94.3%"></i></div><b>0.7488</b></div></div></div><div class="grp"><div class="gl">exp_004<em>11,173행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:91.2%"></i></div><b>0.7236</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:87.5%"></i></div><b>0.6941</b></div></div></div><div class="grp"><div class="gl">exp_005<em>+온라인 증강</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:86.5%"></i></div><b>0.6869</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:85.7%"></i></div><b>0.6798</b></div></div></div><div class="grp"><div class="gl">exp_006<em>50,457행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:90.8%"></i></div><b>0.7209</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:83.9%"></i></div><b>0.6658</b></div></div></div>
+  <div class="rk"><div class="rkr"><span class="rkl">val</span><span class="chip">1<em>exp_004</em></span><span class="chip">2<em>exp_006</em></span><span class="chip">3<em>exp_003</em></span><span class="chip">4<em>exp_005</em></span></div><div class="rkr"><span class="rkl">test</span><span class="chip">1<em>exp_003</em></span><span class="chip">2<em>exp_004</em></span><span class="chip">3<em>exp_005</em></span><span class="chip">4<em>exp_006</em></span></div><p class="rkv no">두 셋의 순위가 다르다</p></div>
+</section>
+
+<section>
+  <h2 class="sec">생성 폭주</h2>
+  <p class="sd">모델이 같은 토큰을 상한까지 반복해 CER이 1을 넘긴 건수.
+  실서비스에서는 정확도 저하가 아니라 파싱 실패다.</p>
+  <div class="legend"><span class="lv"><i></i>검증셋</span><span class="lt"><i></i>테스트셋</span></div>
+  <div class="grp"><div class="gl">exp_003<em>4,496행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:39.0%"></i></div><b>12건</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:13.0%"></i></div><b>4건</b></div></div></div><div class="grp"><div class="gl">exp_004<em>11,173행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:68.3%"></i></div><b>21건</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:16.3%"></i></div><b>5건</b></div></div></div><div class="grp"><div class="gl">exp_005<em>+온라인 증강</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:65.1%"></i></div><b>20건</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:16.3%"></i></div><b>5건</b></div></div></div><div class="grp"><div class="gl">exp_006<em>50,457행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:94.3%"></i></div><b>29건</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:26.0%"></i></div><b>8건</b></div></div></div>
+  <div class="body">
+    <p>두 셋의 차이가 지표 중 가장 크다. 검증셋에서 12~29건이 터지는데 테스트셋에서는
+    4~8건이다. <strong>폭주는 특정 문서에 몰려 있다</strong>는 뜻이고, 검증셋 45장 안에
+    유독 짧고 넓은 크롭을 많이 내는 영수증이 있다는 신호다.</p>
+    <p>데이터를 5배 늘린 exp_006이 양쪽 모두에서 가장 많이 터진다. 이 실험의 학습 정답
+    1,757건에 HTML 표 태그가 섞여 있었던 것이 원인으로, 모델이 텍스트 크롭에
+    <code>&lt;td&gt;1,000&lt;/td&gt;</code>로 답하도록 배웠다.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">종합 AVG (마이크로)</h2>
+  <p class="sd">텍스트와 표를 건수대로 가중 평균한 값. 크롭 1,019건 전체.</p>
+  <div class="legend"><span class="lv"><i></i>검증셋</span><span class="lt"><i></i>테스트셋</span></div>
+  <div class="grp"><div class="gl">exp_003<em>4,496행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:84.1%"></i></div><b>0.8008</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:92.9%"></i></div><b>0.8845</b></div></div></div><div class="grp"><div class="gl">exp_004<em>11,173행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:87.2%"></i></div><b>0.8308</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:94.3%"></i></div><b>0.8985</b></div></div></div><div class="grp"><div class="gl">exp_005<em>+온라인 증강</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:86.5%"></i></div><b>0.8238</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:93.9%"></i></div><b>0.8938</b></div></div></div><div class="grp"><div class="gl">exp_006<em>50,457행</em></div><div class="gb"><div class="bar v"><span class="tick">val</span><div class="track"><i style="width:86.6%"></i></div><b>0.8248</b></div><div class="bar t"><span class="tick">test</span><div class="track"><i style="width:93.0%"></i></div><b>0.8858</b></div></div></div>
+  <div class="body">
+    <p>모든 실험에서 테스트셋 점수가 검증셋보다 높다. 학습 중 <code>--load-best</code>가
+    검증셋 기준으로 체크포인트를 고르는데도 그렇다. 두 셋의 난이도 자체가 다르다는 뜻이라,
+    <strong>절대값을 서로 비교하면 안 된다.</strong></p>
+  </div>
+</section>
+
+<div class="pend">exp_007(정제 데이터)은 평가 진행 중이다. 결과가 나오면 다섯 번째 열로 추가된다.</div>
+
+<div class="close">
+  <h2>그래서 무엇을 바꿔야 하나</h2>
+  <ul>
+    <li><strong>표 평가셋을 늘려야 한다.</strong> 46건·52건으로는 순위를 매길 수 없다.
+    지금의 TEDS 차이는 소수 건이 만든 값이다.</li>
+    <li><strong>검증셋과 테스트셋의 절대값을 비교하지 않는다.</strong> 난이도가 달라
+    테스트셋이 일관되게 높게 나온다. 비교는 같은 셋 안에서만 한다.</li>
+    <li><strong>순위가 갈리면 판정을 보류한다.</strong> 두 셋이 다른 답을 줄 때는
+    차이가 실재하는지 표본이 부족한지부터 확인해야 한다.</li>
+  </ul>
+</div>
+</div>
